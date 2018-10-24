@@ -75,7 +75,7 @@
                         <button type="submit" name="search" onclick="clickSearch();" class="btn btn-lg btn-success btn-block"> Search </button>  
                         </div> 
                         <div class="col-lg-2">
-                        <button type="submit" name="update" class="btn btn-lg btn-success btn-block"> Update </button>  
+                        <button type="submit" name="update" onclick="clickUpdate();" class="btn btn-lg btn-success btn-block"> Update </button>  
                         </div>   
                         <div class="col-lg-2">
                         <button type="submit" name="delete" class="btn btn-lg btn-success btn-block"> Delete </button>  
@@ -119,7 +119,8 @@
                                         if (mysqli_query($conn, $sql)) {
                                             echo "<div class='alert alert-success col-lg-6' id='inv'>Data is inserted successfully</div>";
                                         } else {
-                                            // echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                                            //  echo "Error: "."<br>" . mysqli_error($conn);
+                                            echo "<div class='alert alert-danger col-lg-6' id='inv'>Data is not inserted try again with validation</div>";
                                         }
                                         // mysqli_close($conn);
                                         }
@@ -136,13 +137,48 @@
                                         <div class="form-group col-lg-1">
                                         <button type="submit" name="submit2" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;"> search </button>  
                                         </div>   
-                                    </form>                          
+                                    </form>   
+                                    <form method="POST"> 
+                                    <div class="form-group col-lg-1">
+                                        <button type="submit" name="showAll" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;"> show All </button>  
+                                        </div>
+                                        </form>                       
                     </div>
                 </div>
-                <div class="row" id="showSearch">
+                            <div class="row" id="searchDetail">
                                         <div class="col-lg-10">
                                         <br> <br>
                                         <?php
+                                        if(isset($_POST['showAll'])){
+                                            $sqlrun = "SELECT * FROM visitors_info";
+                                            if ($result=mysqli_query($conn, $sqlrun)) {
+                                                echo "<table class='col-lg-12 text-center' border='2'>
+                                                <thead>
+                                                    <tr>
+                                                    <th class='text-center' style='padding:10px;'>Name</th>
+                                                    <th class='text-center'>CNIC</th>
+                                                    <th class='text-center'>Number</th>
+                                                    <th class='text-center'>Address</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>";      
+                                                    if(mysqli_num_rows($result)==0 ){
+                                                        echo "<tr><td colspan='4'>No result found</td></tr>";
+                                                    }else{
+                                                        while($row = mysqli_fetch_assoc($result)){
+                                                        echo "<tr>
+                                                              <td>{$row['fname']}</td>
+                                                              <td>{$row['cnic']}</td>
+                                                              <td>{$row['phone']}</td>
+                                                              <td>{$row['addr']}</td>
+                                                              </tr>\n";
+                                                        }
+                                                    }
+                                               echo "</tbody>  
+                                                </table>";
+                                            } 
+                                        }
+                                        
                                         if(isset($_POST['submit2'])){
                                             $name=$_POST['name'];
                                        
@@ -185,21 +221,12 @@
                 </div>
                 <!--For search End -->
                 <!--For update -->
-                                <div class="row" id="update" style="display:none;">
+                 <div class="row" id="update" style="display:none;">
                     <div class="col-lg-10 col-lg-offset-1">
-                                <fieldset> <br> <br>
+                                <fieldset> 
                                     <form method="POST">
                                         <div class="form-group col-lg-3">
-                                            <input class="form-control" placeholder="Name" name="name" type="text" autofocus required>
-                                        </div>
-                                        <div class="form-group col-lg-2">
-                                            <input class="form-control" placeholder="CNIC" name="cnic" type="text" required>
-                                        </div>
-                                        <div class="form-group col-lg-2">
-                                            <input class="form-control" placeholder="Number" name="number" type="text" required>
-                                        </div>
-                                        <div class="form-group col-lg-3">
-                                            <input class="form-control" placeholder="Address" name="address" type="text" required>
+                                            <input class="form-control" placeholder="Update by name" name="name" type="text" autofocus required>
                                         </div>
                                         <div class="form-group col-lg-1">
                                         <button type="submit" name="submit3" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;"> update </button>  
@@ -208,39 +235,83 @@
                                 </fieldset>
                     </div>
                 </div>
+                                        <?php
+                                        if(isset($_POST['submit3'])){
+                                            $name=$_POST['name'];
+                                        $sql1 = "SELECT * FROM visitors_info WHERE fname = '$name'";
+                                        // mysqli_error($conn.$sql1);
+                                        // die("working");
+                                        $result=mysqli_query($conn, $sql1);
+                                        while ($row = mysqli_fetch_array($result)) 
+                                        {
+                                            $id = $row['ID'];
+                                            $na = $row['fname'];
+                                            $cnic = $row['cnic'];
+                                            $num = $row['phone'];
+                                            $addr = $row['addr'];
+                                         }
+                                        if (!empty($id)) {
+                                            // while ($row = mysqli_fetch_array($result)) 
+                                            // {
+                                            //     $id = $row['ID'];
+                                            //     $na = $row['fname'];
+                                            //     $cnic = $row['cnic'];
+                                            //     $num = $row['phone'];
+                                            //     $addr = $row['addr'];
+                                            //  }
+                                             echo '<div class="row" id="showUpdate">
+                                             <div class="col-lg-10">
+                                            <fieldset> <br> <br> <br>
+                                                  <form method="POST" autocomplete="off">
+                                                      <div class="form-group col-lg-1">
+                                                         <label for="id"> </label> <input class="form-control" name="id1" type="hidden" value="'.$id.'">
+                                                      </div>
+                                                      <div class="form-group col-lg-3">
+                                                         <label for="name">Name </label> <input class="form-control" name="name1" type="text" autofocus value="'.$na.'" required>
+                                                      </div>
+                                                      <div class="form-group col-lg-2">
+                                                      <label for="cnic">CNIC </label> <input class="form-control" name="cnic1" type="text" value="'.$cnic.'" required>
+                                                      </div>
+                                                      <div class="form-group col-lg-2">
+                                                      <label for="contact">Contact </label><input class="form-control" name="number1" type="text" value="'.$num.'" required>
+                                                      </div>
+                                                      <div class="form-group col-lg-3">
+                                                      <label for="address">Address </label><input class="form-control" name="address1" type="text" value="'.$addr.'" required>
+                                                      </div>
+                                                      <div class="form-group col-lg-1">
+                                                      <label for="submit"> </label><input type="submit" name="submit4" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;" value="update"/>  
+                                                      </div>      
+                                                  </form>
+     
+                                             </fieldset>
+     
+                              </div>
+                     </div>';
+                                            }else{
+
+                                                echo "<div class='alert alert-danger col-lg-6' id='inv'>Data is not found</div>";
+                }
+            }
+
+                                        if(isset($_POST['submit4'])){
+                                         $id = $_POST['id1'];
+                                         $nam = $_POST['name1'];
+                                         $nic = $_POST['cnic1'];
+                                         $number = $_POST['number1'];
+                                         $address = $_POST['address1']; 
+                                         $sql1 = "UPDATE visitors_info SET fname = '$nam', cnic = '$nic', phone = '$number', addr = '$address' WHERE ID='$id'";                                                                           
+                                         if(mysqli_query($conn, $sql1)){
+                                          echo "<div class='alert alert-success col-lg-6' id='inv'>Data is updated successfully</div>";
+                                          }else{
+                                              echo mysqli_error($conn);
+                                          }
+                                     }
+                                    
+                                    //  echo $nam.$nic;
+                                    //  echo "<div class='alert alert-success col-lg-6' id='inv'>Data is updated successfully</div>";
+                    ?>  
                 <!--For update End -->
-                <div class="row" style="display:none;">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                             Tables
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="dataTable_wrapper">
-                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>CNIC</th>
-                                                <th>Number</th>
-                                                <th>Address</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="odd gradeX">
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="center"></td>
-                                                <td class="center"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+
                 <script src="js/jquery.min.js"></script>
                 <script src="js/bootstrap.min.js"></script>
                 <script src="js/metisMenu.min.js"></script>
@@ -250,16 +321,32 @@
                 <script src="js/startmin.js"></script>
                 <script>
                 function clickInsert(){
+                    document.getElementById("searchDetail").style.display="none";
+                    document.getElementById("update").style.display="none";
                     document.getElementById("search").style.display="none";
                     document.getElementById("insert").style.display="block";
-                    document.getElementById("showSearch").style.display="none";
                     document.getElementById("inv").style.display="none";
+                    document.getElementById("showSearch").style.display="none";
+                    document.getElementById("showUpdate").style.display="none";
                 }
                 function clickSearch(){
-                    document.getElementById("search").style.display="block";
+                    document.getElementById("searchDetail").style.display="none";
+                    document.getElementById("update").style.display="none";
                     document.getElementById("insert").style.display="none";
+                    document.getElementById("search").style.display="block";
                     document.getElementById("inv").style.display="none";
+                    document.getElementById("showSearch").style.display="none";
+                    document.getElementById("showUpdate").style.display="none";
                 }
-                </script>
+                function clickUpdate(){
+                    document.getElementById("searchDetail").style.display="none";
+                    document.getElementById("search").style.display="none";
+                    document.getElementById("insert").style.display="none";
+                    document.getElementById("update").style.display="block";
+                    document.getElementById("inv").style.display="none";
+                    document.getElementById("showSearch").style.display="none";
+                    document.getElementById("showUpdate").style.display="none";
+                }
+                </script>       
     </body>
 </html>
