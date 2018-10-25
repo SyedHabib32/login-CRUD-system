@@ -1,4 +1,5 @@
 <?php
+  require_once('dblogin.php');
   require_once('db.php');
     session_start();
     $user= $_SESSION["user"];
@@ -119,7 +120,7 @@
                                         if (mysqli_query($conn, $sql)) {
                                             echo "<div class='alert alert-success col-lg-6' id='inv'>Data is inserted successfully</div>";
                                         } else {
-                                            //  echo "Error: "."<br>" . mysqli_error($conn);
+                                            // echo "Error: "."<br>" . mysqli_error($conn);
                                             echo "<div class='alert alert-danger col-lg-6' id='inv'>Data is not inserted try again with validation</div>";
                                         }
                                         // mysqli_close($conn);
@@ -129,8 +130,8 @@
                  <!--For search -->
                  <div class="row" id="search" style="display:none;">
                     <div class="col-lg-10 col-lg-offset-1">
-                            <br> <br>                     
-                                    <form method="POST">
+                            <br> <br>                 
+                                    <form method="POST"> 
                                         <div class="form-group col-lg-3">
                                             <input class="form-control" placeholder="Search By Name" name="name" type="text" autofocus required>
                                         </div>
@@ -139,7 +140,7 @@
                                         </div>   
                                     </form>   
                                     <form method="POST"> 
-                                    <div class="form-group col-lg-1">
+                                    <div class="form-group col-lg-1" style="margin-top: -14px;">
                                         <button type="submit" name="showAll" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;"> show All </button>  
                                         </div>
                                         </form>                       
@@ -276,7 +277,7 @@
                                                       </div>
                                                       <div class="form-group col-lg-3">
                                                       <label for="address">Address </label><input class="form-control" name="address1" type="text" value="'.$addr.'" required>
-                                                      </div>
+                                                      </div> <br>
                                                       <div class="form-group col-lg-1">
                                                       <label for="submit"> </label><input type="submit" name="submit4" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;" value="update"/>  
                                                       </div>      
