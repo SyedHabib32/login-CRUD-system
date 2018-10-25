@@ -78,8 +78,8 @@
                         <button type="submit" name="update" onclick="clickUpdate();" class="btn btn-lg btn-success btn-block"> Update </button>  
                         </div>   
                         <div class="col-lg-2">
-                        <button type="submit" name="delete" class="btn btn-lg btn-success btn-block"> Delete </button>  
-                        </div>    
+                        <button type="submit" name="delete" onclick="clickDelete();" class="btn btn-lg btn-success btn-block"> Delete </button>  
+                        </div>   
                     </div>         
                 </div>
                 <!--For Insert -->
@@ -211,11 +211,9 @@
                                                 }
                                            echo "</tbody>  
                                             </table>";
-                                        } else {
-                                            // echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                                         }
-                                        // mysqli_close($conn);
-                                        }
+                                    }
+
                                 ?>     
                                         </div>
                 </div>
@@ -223,6 +221,7 @@
                 <!--For update -->
                  <div class="row" id="update" style="display:none;">
                     <div class="col-lg-10 col-lg-offset-1">
+                    <br> <br> 
                                 <fieldset> 
                                     <form method="POST">
                                         <div class="form-group col-lg-3">
@@ -311,40 +310,130 @@
                                     //  echo "<div class='alert alert-success col-lg-6' id='inv'>Data is updated successfully</div>";
                     ?>  
                 <!--For update End -->
-
+                <!--For Delete Start -->
+                <div class="row" id="delete" style="display:none;">
+                    <div class="col-lg-10 col-lg-offset-1">
+                    <br> <br> 
+                                <fieldset> 
+                                    <form method="POST">
+                                        <div class="form-group col-lg-3">
+                                            <input class="form-control" placeholder="Delete by name" name="name" type="text" autofocus required>
+                                        </div>
+                                        <div class="form-group col-lg-2">
+                                        <button type="submit" name="tobedelete" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;"> search for Delete </button>  
+                                        </div>   
+                                    </form>                          
+                                </fieldset>
+                    </div>
+                </div>
+                <?php
+                                        if(isset($_POST['tobedelete'])){
+                                            $name=$_POST['name'];
+                                        $sql1 = "SELECT * FROM visitors_info WHERE fname = '$name'";
+                                        // mysqli_error($conn.$sql1);
+                                        // die("working");
+                                        $result=mysqli_query($conn, $sql1);
+                                        while ($row = mysqli_fetch_array($result)) 
+                                        {
+                                            $id = $row['ID'];
+                                            $na = $row['fname'];
+                                            $cnic = $row['cnic'];
+                                            $num = $row['phone'];
+                                            $addr = $row['addr'];
+                                        }
+                                        if (!empty($id)) {
+                                          echo  '<form method="POST" autocomplete="off">
+                                            <input class="form-control" name="id1" type="hidden" value="'.$id.'" required>
+                                            <input class="form-control" name="name1" type="hidden" value="'.$na.'" required>
+                                            <input class="form-control" name="cnic1" type="hidden" value="'.$cnic.'" required>
+                                            <input class="form-control" name="number1" type="hidden" value="'.$num.'" required>
+                                            <input class="form-control" name="address1" type="hidden" value="'.$addr.'" required>
+                                            <div class="form-group col-lg-6 col-lg-offset-2">
+                                            <table class="col-lg-12 text-center" border="1">
+                                            <tr>
+                                             <th class="text-center">ID</th>
+                                             <th class="text-center">Name</th>
+                                             <th class="text-center">CNIC</th>
+                                             <th class="text-center">Phone</th>
+                                             <th class="text-center">Address</th>
+                                             </tr>    
+                                            <tr>
+                                             <td>'.$id.'</td>
+                                             <td>'.$na.'</td>
+                                             <td>'.$cnic.'</td>
+                                             <td>'.$num.'</td>
+                                             <td>'.$addr.'</td>
+                                             </tr>                               
+                                            </table>
+                                            </div>  
+                                            <div class="col-lg-1 col-lg-offset-7">
+                                            <input type="submit" name="delete" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;" value="Delete"/>      
+                                            </div>
+                                            </form>';
+                                        }else{
+                                            echo "<div class='alert alert-danger col-lg-6' id='inv'>Data is not found</div>";
+                                            }
+                                    }
+                                    
+                                    if(isset($_POST['delete'])){
+                                        $id = $_POST['id1'];
+                                        $nam = $_POST['name1'];
+                                        $nic = $_POST['cnic1'];
+                                        $number = $_POST['number1'];
+                                        $address = $_POST['address1'];                                     
+                                        $sql1 = "DELETE from visitors_info WHERE ID='$id'";                                                                           
+                                        if(mysqli_query($conn, $sql1)){
+                                         echo "<div class='alert alert-success col-lg-6' id='inv'>Deleted successfully</div>";
+                                         }else{
+                                             echo mysqli_error($conn);
+                                         }
+                                    }
+                                         ?>
+                 <!--For Delete End -->
+                                    <div id="inv">
+                                     </div>
+                                     <div id="showUpdate">
+                                     </div>
                 <script src="js/jquery.min.js"></script>
                 <script src="js/bootstrap.min.js"></script>
                 <script src="js/metisMenu.min.js"></script>
                 <script src="js/raphael.min.js"></script>
-                <script src="js/morris.min.js"></script>
-                <script src="js/morris-data.js"></script>
                 <script src="js/startmin.js"></script>
                 <script>
                 function clickInsert(){
                     document.getElementById("searchDetail").style.display="none";
                     document.getElementById("update").style.display="none";
                     document.getElementById("search").style.display="none";
+                    document.getElementById("delete").style.display="none";
                     document.getElementById("insert").style.display="block";
                     document.getElementById("inv").style.display="none";
-                    document.getElementById("showSearch").style.display="none";
                     document.getElementById("showUpdate").style.display="none";
                 }
                 function clickSearch(){
                     document.getElementById("searchDetail").style.display="none";
                     document.getElementById("update").style.display="none";
                     document.getElementById("insert").style.display="none";
+                    document.getElementById("delete").style.display="none";
                     document.getElementById("search").style.display="block";
                     document.getElementById("inv").style.display="none";
-                    document.getElementById("showSearch").style.display="none";
                     document.getElementById("showUpdate").style.display="none";
                 }
                 function clickUpdate(){
                     document.getElementById("searchDetail").style.display="none";
                     document.getElementById("search").style.display="none";
                     document.getElementById("insert").style.display="none";
+                    document.getElementById("delete").style.display="none";
                     document.getElementById("update").style.display="block";
                     document.getElementById("inv").style.display="none";
-                    document.getElementById("showSearch").style.display="none";
+                    document.getElementById("showUpdate").style.display="none";
+                }
+                function clickDelete(){
+                    document.getElementById("searchDetail").style.display="none";
+                    document.getElementById("search").style.display="none";
+                    document.getElementById("insert").style.display="none";
+                    document.getElementById("update").style.display="none";
+                    document.getElementById("delete").style.display="block";
+                    document.getElementById("inv").style.display="none";
                     document.getElementById("showUpdate").style.display="none";
                 }
                 </script>       
