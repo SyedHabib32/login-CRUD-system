@@ -120,7 +120,7 @@
                                         if (mysqli_query($conn, $sql)) {
                                             echo "<div class='alert alert-success col-lg-6' id='inv'>Data is inserted successfully</div>";
                                         } else {
-                                            // echo "Error: "."<br>" . mysqli_error($conn);
+                                            echo "Error: "."<br>" . mysqli_error($conn);
                                             echo "<div class='alert alert-danger col-lg-6' id='inv'>Data is not inserted try again with validation</div>";
                                         }
                                         // mysqli_close($conn);
@@ -343,7 +343,7 @@
                                             $addr = $row['addr'];
                                         }
                                         if (!empty($id)) {
-                                          echo  '<form method="POST" autocomplete="off">
+                                          echo  '<form method="POST" autocomplete="off" id="showUpdate">
                                             <input class="form-control" name="id1" type="hidden" value="'.$id.'" required>
                                             <input class="form-control" name="name1" type="hidden" value="'.$na.'" required>
                                             <input class="form-control" name="cnic1" type="hidden" value="'.$cnic.'" required>
@@ -394,6 +394,8 @@
                                     <div id="inv">
                                      </div>
                                      <div id="showUpdate">
+                                     </div>
+                                     <div id="deleteform">
                                      </div>
                 <script src="js/jquery.min.js"></script>
                 <script src="js/bootstrap.min.js"></script>
