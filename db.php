@@ -13,7 +13,7 @@ if (!$conn) {
 
 // sql to create table
 $sql1 = "CREATE TABLE visitors_info (
-    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+    ID INT(6) AUTO_INCREMENT PRIMARY KEY, 
     fname VARCHAR(30) NOT NULL ,
     cnic int(13) NOT NULL UNIQUE,
     phone int(11) NOT NULL UNIQUE,
