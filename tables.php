@@ -1,5 +1,4 @@
 <?php
-  require_once('dblogin.php');
   require_once('db.php');
     session_start();
     $user= $_SESSION["user"];
