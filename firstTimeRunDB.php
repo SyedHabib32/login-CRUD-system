@@ -26,7 +26,7 @@ $sql1 = "CREATE TABLE visitors_info (
     cnic int(13) NOT NULL UNIQUE,
     phone int(11) NOT NULL UNIQUE,
     addr VARCHAR(50)
-    )";
+    )"; 
 
 if (mysqli_query($conn1, $sql1)) {
     echo "<br> Table visitors_info created successfully";
