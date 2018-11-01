@@ -18,6 +18,8 @@ if (mysqli_query($conn, $sql)) {
     echo "Error creating database: " . mysqli_error($conn);
 }
 // sql to create table
+$db= "eplanet";
+$conn1 = mysqli_connect($servername, $username, $password,$db);
 $sql1 = "CREATE TABLE visitors_info (
     ID INT(6) AUTO_INCREMENT PRIMARY KEY, 
     fname VARCHAR(30) NOT NULL ,
@@ -26,8 +28,8 @@ $sql1 = "CREATE TABLE visitors_info (
     addr VARCHAR(50)
     )";
 
-if (mysqli_query($conn, $sql1)) {
-    echo "Table MyGuests created successfully";
+if (mysqli_query($conn1, $sql1)) {
+    echo "<br> Table visitors_info created successfully";
 } else {
     echo "Error creating table: " . mysqli_error($conn);
 }

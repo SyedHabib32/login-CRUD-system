@@ -19,8 +19,6 @@
         <title>Manipulation</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/metisMenu.min.css" rel="stylesheet">
-        <link href="css/dataTables/dataTables.bootstrap.css" rel="stylesheet">
-        <link href="css/dataTables/dataTables.responsive.css" rel="stylesheet">
         <link href="css/startmin.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
     </head>
@@ -139,7 +137,7 @@
                                         </div>   
                                     </form>   
                                     <form method="POST"> 
-                                    <div class="form-group col-lg-1" style="margin-top: -14px;">
+                                    <div class="form-group col-lg-1">
                                         <button type="submit" name="showAll" class="btn btn-lg btn-success btn-block" style="font-size:14px; padding:7px;"> show All </button>  
                                         </div>
                                         </form>                       
